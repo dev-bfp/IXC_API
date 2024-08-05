@@ -75,33 +75,7 @@ def ardtt(rp):
 hoje = datetime.now().strftime('%Y-%m-%d')
 print(hoje)
 
-'''
-PPV = marcoslindo('fn_areceber')
-for x in PPV['registros']:
-    if x['data_vencimento'] <= hoje and >= hoje and x['status'] == 'A':
-        print(x['id'], x['data_vencimento'])
-
-'''
-
-# print(ardt(getdtall('movimento_produtos')))
 
 print(ardt(getdt('=', 'su_oss_chamado', 'id_assunto', '77')))
 
-# print(ardtt(getdt('radpop_radio_cliente_fibra', 'id_caixa_ftth', '196')))
-
-# agr = getdtall('cliente')
-# print(ardt(agr))
-# # agr = getdtlst('vd_contratos')
-
-
-# Search_table = 'su_canal_atendimento'
-# Search_value = 'id'
-# Value = '2'
-
-#agr = getdt('=',Search_table, Search_value, Value)
-#print(ardt(agr))
-
-# print(ardt(agr))
-
-# marcoslindo("fn_areceber")
 
