@@ -3,8 +3,8 @@ import base64
 import json
 from pprint import pp as pp
 from Tokens import *
-
 class IXC():
+
     def parameters_format(parameters):
         '''
         Formata os parâmetros no padrão utilizado
