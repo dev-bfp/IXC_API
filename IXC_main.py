@@ -1,8 +1,12 @@
 import requests
 import base64
 import json
+from datetime import datetime
 from pprint import pp as pp
 from Tokens import *
+import pandas as pd
+
+
 class IXC():
 
     def parameters_format(parameters):
@@ -12,62 +16,84 @@ class IXC():
         cabecalho = ['TB','OP','P']
         param = []
         for p in parameters:
-            print(p)
             param.append(dict(zip(cabecalho,p)))
         print(param)
         return param
         # -------------------- Fim --------------------
 
-
-    def get_info_IXC(tab, col='id', op='>', value=0, param='', pag="1", lin="10000000", ord_camp='id', ord='asc'):
-        '''
-        tab - Tabela do IXC
-        param = Filtros adicionais array(['col','op','value'])
-        col - Coluna IXC que vai ser consultada
-        value - Campo da consulta
-        op - Operador lógico para consulta = != > < >= <=
-        pag - Qual pag vai retornar
-        lin - Quantidade de registros por página
-        ord_camp - Campo que vai ser usado para colocar em ordem
-        ord - Ordenação ASC ou DESC
-        '''
-        param = IXC.parameters_format(param) if param != '' else ''
-        url = ixc_url + tab
-        encode = base64.b64encode(ixc_token.encode('utf-8')).decode('utf-8')
-        headers = {
-            'ixcsoft': 'listar',
-            'Authorization': "Basic " + encode,
-            'Content-Type': 'application/json'
-        }
-        payload = json.dumps({
-                # 'qtype': col,
-                # 'query': value,
-                # 'oper': op,
-                'page': pag,
-                'rp': lin,
-                'sortname': ord_camp,
-                'sortorder': ord,
-                'grid_param': json.dumps(param)
-            })
-
-        response = requests.post(url, data=payload, headers=headers)
-        if response.status_code == 200:
-            pp(response.json())
-            return response.json()
-        else:
-            pp(response.text)
-            return "Error" + response.text
+    def create_log(response):
+        agora = datetime.now().strftime("%d-%m-%Y %H_%M_%S")
+        with open('Logs/log_IXC_' + agora + '.csv','w+') as tributo:
+            tributo.writelines(response)
         # -------------------- Fim --------------------
+
+    
+    def update_date(date):
+        '''
+        Atualiza os campos de data para um formato aceito pelo IXC
+        '''
+        if date == '0000-00-00':
+            return ''
         
+        elif len(date) == 10:
+            try:
+                formated_date = datetime.strptime(date,'%Y-%m-%d')
+                finaly_date = formated_date.strftime('%d/%m/%Y')
+                return finaly_date
+            except:
+                return date
+        
+        elif len(date) == 19:
+            try:
+                formated_date = datetime.strptime(date,'%Y-%m-%d %H:%M:%S')
+                finaly_date = formated_date.strftime("%d/%m/%Y %H:%M:%S")
+                return finaly_date
+            except:
+                return date
+        # -------------------- Fim --------------------
+
+
+    def type_verificator(payload):
+        data = payload
+        data_formated = {}
+        for key,value in data.items():
+            if len(value) == 10 or len(value) == 19:
+                check = value.split('-')
+                if len(check) == 3:
+                    data_formated[key] = IXC.update_date(value)
+                    print(f'Formatado {key}: {value} para {data_formated[key]}')
+                else:
+                    pass
+
+        data.update(data_formated)
+        return data
+        # -------------------- Fim --------------------
+
+
+    def return_list(response,return_list):
+        array = []
+        for dados in response['registros']:
+            array2 = {}
+            for key, value in dados.items():
+                if key in return_list:
+                    array2[key] = value
+            array.append(array2)
+        response['registros'] = array
+        return response
+                
+
+
+
     def file_upload_ixc(id_cliente, arquivo, tipo_arquivo, nome_arquivo):
         '''
-        Adiciona arquivos no IXC
-        arquivo = request.get(link) ou caminho local
-        tipo_arquivo = PDF, JPG, PNG, MP3, etc.
-        nome_arquivo = nome do arquivo
+            Adiciona arquivos no IXC
+            id_cliente = id do cliente no IXC
+            arquivo = request.get(link) ou caminho local
+            tipo_arquivo = PDF, JPG, PNG, MP3, etc.
+            nome_arquivo = nome do arquivo
         '''
-        url = ixc_url + 'cliente_arquivos'
-        encode = base64.b64encode(ixc_token.encode('utf-8')).decode('utf-8')
+        url = IXC_url + 'cliente_arquivos'
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
         headers = {
             "ixcsoft": "",
             "Authorization": "Basic " + encode,
@@ -89,3 +115,96 @@ class IXC():
             pp(response.text)
             return "Error" + response.text
         # -------------------- Fim --------------------
+
+
+    def get_info_IXC(tab, col='id', op='>', value=0, return_list='', param='', pag="1", lin="10000000",
+                     ord_camp='id', order='asc'):
+        '''
+        tab - Tabela do IXC
+        param = Filtros adicionais array(['col','op','value'])
+        col - Coluna IXC que vai ser consultada
+        value - Campo da consulta
+        op - Operador lógico para consulta = != > < >= <=
+        pag - Qual pag vai retornar
+        lin - Quantidade de registros por página
+        ord_camp - Campo que vai ser usado para colocar em ordem
+        ord - Ordenação ASC ou DESC
+        
+        '''
+        param = IXC.parameters_format(param) if param != '' else ''
+        url = IXC_url + tab
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+            'ixcsoft': 'listar',
+            'Authorization': "Basic " + encode,
+            'Content-Type': 'application/json'
+        }
+        if param == '':
+            payload = json.dumps({
+                    'qtype': col,
+                    'query': value,
+                    'oper': op,
+                    'page': pag,
+                    'rp': lin,
+                    'sortname': ord_camp,
+                    'sortorder': order,
+                })
+        else:
+            payload = json.dumps({
+                    'page': pag,
+                    'rp': lin,
+                    'sortname': ord_camp,
+                    'sortorder': order,
+                    'grid_param': json.dumps(param), #param
+                })
+
+        response = requests.post(url, data=payload, headers=headers)
+        if response.status_code == 200:
+            #pp(response.json())
+            data = response.json()
+            return_list = IXC.return_list(data,return_list) if return_list != '' else data
+            return return_list
+        else:
+            # pp(response.text)
+            return "Error" + response.text
+        # -------------------- Fim --------------------
+
+    
+    def edit_info_IXC(tab, id, payload):
+        '''
+        tab - Tabela do IXC
+        id = id do da coluna para pesquisa
+        payload = alterações a serem realizadas
+        '''
+        print(f'Atualizando ID: {} da tabela {tab}')
+        dados = dict(IXC.get_info_IXC(tab,col='id',op='=',value=id)['registros'][0])
+        dados.update(payload)
+        payload1 = IXC.type_verificator(dados)
+        dados.update(payload1)
+        
+        #pp(dados)
+        
+        url = f"https://crm.redfibra.com.br/webservice/v1/{tab}/{id}"
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+            'ixcsoft': '',
+            'Authorization': "Basic " + encode,
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.put(url, data=json.dumps(dados), headers=headers)
+        if response.status_code == 200:
+            #pp(response.json())
+            retorno = response.json()
+            return retorno
+        else:
+            pp(response.text)
+            return "Error" + response.text
+        # -------------------- Fim --------------------
+        
+
+
+
+
+
+

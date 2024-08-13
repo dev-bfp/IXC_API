@@ -1,4 +1,6 @@
 # Default ignored files
 Tokens.py
+/generated files/
+/Logs/
 /shelf/
 /workspace.xml

@@ -1,81 +1,31 @@
-from files import *
+from IXC_main import *
 import pandas as pd
 
-# print(oscha3)
-# print(oscha3.sort_values(0))
+                        
 
-pd.set_option('display.max_rows', 1000000000000000000000)
-# pd.set_option('display.max_columns', 1000000000000000000000)
-
-
-def getdtlst(bd):
-    col = bd + ".id"
-    op = ">"
-    qts = 1
-    idd = 0
-    rspx = pld(col, idd, op, qts, url + bd, 'desc')
-    lst = rspx['registros'][0]['id']
-    return lst
+payload = {
+            'pis_retem': 'S',
+            'cofins_retem': 'S',
+            'csll_retem': 'S',
+            'irrf_retem': 'S',
+            'desconto_irrf_valor_inferior': 'S',
+            'cli_desconta_iss_retido_total': '',
+            }
 
 
-def marcoslindo(bd):
-    col = bd + ".data_vencimento"
-    op = ">"
-    qts = 10000000000
-    idd = "2023-12-01"
-    rspx = pld(col, idd, op, qts, url + bd, 'asc')
-    lst = rspx
-    return lst
-    print(lst)
+filtro = (['pis_retem', '=','S'],['id', '>', '8540'])
+return_list = ['id','razao','pis_retem','cofins_retem','cofins_retem','irrf_retem','cli_desconta_iss_retido_total']
+dados = IXC.get_info_IXC('cliente',param=filtro)
 
 
-def getdtall(bd):
-    col = bd + ".id"
-    op = ">"
-    qts = 1000000
-    idd = 0
-    rspx = pld(col, idd, op, qts, url + bd, 'asc')
-    print(rspx)
-    return rspx
+# array = []
+# print(dados['total'])
+# for x in dados['registros']:
+#     array2 = []
+#     # print(x['id'], x['pis_retem'])
+#     array2 += x['id'], x['pis_retem']
+#     array += array2
 
-
-def getdt(operator, bd, cl, idd):
-    col = bd + "." + cl
-    op = operator
-    qts = 100000
-    rspx = pld(col, idd, op, qts, url + bd, 'desc')
-    # print(rspx)
-    return rspx
-
-
-def ardt(rp):
-    xx = rp['registros']
-    date = []
-    for x in xx:
-        for t in x:
-            date.append([t, x[t]])
-        date.append(['---------', '---------'])
-    df2 = pd.DataFrame(date)
-    return df2
-
-
-def ardtt(rp):
-    xx = rp['registros']
-    date = []
-    for x in xx:
-        date.append([x['id_saida'],
-                     x['valor_total'],
-                     ])
-    df2 = pd.DataFrame(date)
-    df2 = df2.rename(columns={0: 'id_saida',
-                              1: 'valor_total',
-                              })
-    return df2
-
-hoje = datetime.now().strftime('%Y-%m-%d')
-print(hoje)
-
-
-print(ardt(getdt('=', 'su_oss_chamado', 'id_assunto', '77')))
-
-
+# with open(r'C:\Users\brian\OneDrive\dev-bfp\GitHub\Homologação\tributo.xls','w+') as tributo:
+#     tributo.writelines(array)
+# print(array)
