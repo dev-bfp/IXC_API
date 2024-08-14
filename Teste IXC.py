@@ -1,31 +1,19 @@
 from IXC_main import *
-import pandas as pd
+              
 
-                        
+def edit_data_IXC(table, id_list, payload):
+    '''
+    table = tabela do IXC que será alterada
+    id_list = lista de ID's dos dados a serem alterados
+    payload = lista em dict dos campos a serem alterados
+    '''
+    array_log = []
+    index = 1
+    for x in id_list:
+        edited = IXC.edit_info_IXC(table,x,payload)
+        array_log.append(f'{index} - {edited} {'\n'}')
+        index += 1
 
-payload = {
-            'pis_retem': 'S',
-            'cofins_retem': 'S',
-            'csll_retem': 'S',
-            'irrf_retem': 'S',
-            'desconto_irrf_valor_inferior': 'S',
-            'cli_desconta_iss_retido_total': '',
-            }
+    IXC.create_log(array_log)
 
-
-filtro = (['pis_retem', '=','S'],['id', '>', '8540'])
-return_list = ['id','razao','pis_retem','cofins_retem','cofins_retem','irrf_retem','cli_desconta_iss_retido_total']
-dados = IXC.get_info_IXC('cliente',param=filtro)
-
-
-# array = []
-# print(dados['total'])
-# for x in dados['registros']:
-#     array2 = []
-#     # print(x['id'], x['pis_retem'])
-#     array2 += x['id'], x['pis_retem']
-#     array += array2
-
-# with open(r'C:\Users\brian\OneDrive\dev-bfp\GitHub\Homologação\tributo.xls','w+') as tributo:
-#     tributo.writelines(array)
-# print(array)
+edit_data_IXC('cliente', ['3817','5982'],{'razao': 'Ola word'})

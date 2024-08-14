@@ -1,6 +1,7 @@
 import requests
 import base64
 import json
+from os import makedirs
 from datetime import datetime
 from pprint import pp as pp
 from Tokens import *
@@ -22,9 +23,10 @@ class IXC():
         # -------------------- Fim --------------------
 
     def create_log(response):
-        agora = datetime.now().strftime("%d-%m-%Y %H_%M_%S")
-        with open('Logs/log_IXC_' + agora + '.csv','w+') as tributo:
-            tributo.writelines(response)
+        now = datetime.now().strftime("%d-%m-%Y__%H_%M_%S")
+        diretory = f'/logs/log_IXC_{now}.csv'
+        with open(diretory,'w') as log:
+            log.writelines(str(x))
         # -------------------- Fim --------------------
 
     
@@ -61,7 +63,7 @@ class IXC():
                 check = value.split('-')
                 if len(check) == 3:
                     data_formated[key] = IXC.update_date(value)
-                    print(f'Formatado {key}: {value} para {data_formated[key]}')
+                    # print(f'Formatado {key}: {value} para {data_formated[key]}')
                 else:
                     pass
 
@@ -176,7 +178,7 @@ class IXC():
         id = id do da coluna para pesquisa
         payload = alterações a serem realizadas
         '''
-        print(f'Atualizando ID: {} da tabela {tab}')
+        print(f'Atualizando ID: {id} da tabela {tab}')
         dados = dict(IXC.get_info_IXC(tab,col='id',op='=',value=id)['registros'][0])
         dados.update(payload)
         payload1 = IXC.type_verificator(dados)
