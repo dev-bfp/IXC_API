@@ -22,10 +22,10 @@ class IXC():
         # -------------------- Fim --------------------
 
 
-    def create_log(response):
+    def create_log(response,diretory='',modo='w+'):
         now = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-        diretory = r'C:\Users\brian\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv'
-        with open(diretory,'w+') as log:
+        diretory = r'C:\Users\brian\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
+        with open(diretory,str(modo)) as log:
             for x in response:
                 log.write(str(x)+ '\n')
         # -------------------- Fim --------------------
@@ -83,7 +83,8 @@ class IXC():
         index = 1
         for x in id_list:
             edited = IXC.edit_info_IXC(table,x,payload)
-            array_log.append(f'{index} - {edited}')
+            print(f'ID: {x} == {edited}')
+            array_log.append(f'id: {x} - {edited}')
             index += 1
 
         IXC.create_log(array_log)
@@ -179,10 +180,13 @@ class IXC():
 
         response = requests.post(url, data=payload, headers=headers)
         if response.status_code == 200:
-            #pp(response.json())
+            # pp(response.json())
             data = response.json()
-            return_list = IXC.return_list(data,return_list) if return_list != '' else data
-            return return_list
+            if data['total'] > 0:
+                return_list = IXC.return_list(data,return_list) if return_list != '' else data
+                return return_list
+            else:
+                return 'Sem registros'
         else:
             # pp(response.text)
             return "Error" + response.text
