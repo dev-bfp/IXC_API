@@ -1,7 +1,6 @@
 import requests
 import base64
 import json
-from os import makedirs
 from datetime import datetime
 from pprint import pp as pp
 from Tokens import *
@@ -22,11 +21,13 @@ class IXC():
         return param
         # -------------------- Fim --------------------
 
+
     def create_log(response):
-        now = datetime.now().strftime("%d-%m-%Y__%H_%M_%S")
-        diretory = f'/logs/log_IXC_{now}.csv'
-        with open(diretory,'w') as log:
-            log.writelines(str(x))
+        now = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
+        diretory = r'C:\Users\brian\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv'
+        with open(diretory,'w+') as log:
+            for x in response:
+                log.write(str(x)+ '\n')
         # -------------------- Fim --------------------
 
     
@@ -72,6 +73,23 @@ class IXC():
         # -------------------- Fim --------------------
 
 
+    def edit_data_IXC(table, id_list, payload):
+        '''
+        table = tabela do IXC que será alterada
+        id_list = lista de ID's dos dados a serem alterados
+        payload = lista em dict dos campos a serem alterados
+        '''
+        array_log = []
+        index = 1
+        for x in id_list:
+            edited = IXC.edit_info_IXC(table,x,payload)
+            array_log.append(f'{index} - {edited}')
+            index += 1
+
+        IXC.create_log(array_log)
+        # -------------------- Fim --------------------
+
+
     def return_list(response,return_list):
         array = []
         for dados in response['registros']:
@@ -82,8 +100,7 @@ class IXC():
             array.append(array2)
         response['registros'] = array
         return response
-                
-
+        # -------------------- Fim --------------------        
 
 
     def file_upload_ixc(id_cliente, arquivo, tipo_arquivo, nome_arquivo):
