@@ -182,7 +182,7 @@ class IXC():
         if response.status_code == 200:
             # pp(response.json())
             data = response.json()
-            if data['total'] > 0:
+            if data['total'] != 0:
                 return_list = IXC.return_list(data,return_list) if return_list != '' else data
                 return return_list
             else:
