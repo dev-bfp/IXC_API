@@ -6,7 +6,6 @@ from pprint import pp as pp
 from Tokens import *
 import pandas as pd
 
-
 class IXC():
 
     def parameters_format(parameters):
