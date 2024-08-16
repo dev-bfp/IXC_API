@@ -9,7 +9,6 @@ try: from Sign import Tokens
 except: pass
 
 
-
 class IXC():
 
     def parameters_format(parameters):
