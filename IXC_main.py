@@ -5,9 +5,6 @@ from datetime import datetime
 from pprint import pp as pp
 from Tokens import *
 import pandas as pd
-try: from Sign import Tokens
-except: pass
-
 
 class IXC():
 
