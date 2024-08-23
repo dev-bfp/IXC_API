@@ -1,13 +1,13 @@
 from IXC_main import *
 
 
-filtro = (['status','=','A'],['desconto_fidelidade','=',''])
-ret = ['id','razao','desconto_fidelidade','taxa_instalacao','id_produto_ativ']
-dados = IXC.get_info_IXC('cliente_contrato', return_list=ret, param=filtro)
-print(dados)
+# filtro = (['status','=','A'],['id','=','6126'])
+# ret = ['id','desconto_fidelidade','taxa_instalacao','id_produto_ativ']
+# dados = IXC.get_info_IXC('cliente_contrato', return_list=ret, param=filtro)
+# print(dados['registros'])
 
-df = pd.DataFrame(dados['registros'],columns=ret)
-df.to_excel('C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/contrato_taxafidelidade1.xlsx', index= False)
+# df = pd.DataFrame(dados['registros'],columns=ret)
+# df.to_excel('C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/contrato_taxafidelidade1.xlsx', index= False)
 
 
 # lista = []

@@ -148,9 +148,7 @@ class IXC():
         lin - Quantidade de registros por página
         ord_camp - Campo que vai ser usado para colocar em ordem
         ord - Ordenação ASC ou DESC
-        
         '''
-        param = IXC.parameters_format(param) if param != '' else ''
         url = IXC_url + tab
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
         headers = {
@@ -158,34 +156,31 @@ class IXC():
             'Authorization': "Basic " + encode,
             'Content-Type': 'application/json'
         }
-        if param == '':
-            payload = json.dumps({
-                    'qtype': col,
-                    'query': value,
-                    'oper': op,
-                    'page': pag,
-                    'rp': lin,
-                    'sortname': ord_camp,
-                    'sortorder': order,
-                })
-        else:
-            payload = json.dumps({
-                    'page': pag,
-                    'rp': lin,
-                    'sortname': ord_camp,
-                    'sortorder': order,
-                    'grid_param': json.dumps(param), #param
-                })
+        
+        payload = {
+                'qtype': col,
+                'query': value,
+                'oper': op,
+                'page': pag,
+                'rp': lin,
+                'sortname': ord_camp,
+                'sortorder': order,
+            }
+        if param != '':
+            param = IXC.parameters_format(param)
+            payload['grid_param'] = json.dumps(param)
 
-        response = requests.post(url, data=payload, headers=headers)
+        print(payload)
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
         if response.status_code == 200:
             # pp(response.json())
             data = response.json()
-            if data['total'] != 0:
+            if int(data['total']) > 0:
                 return_list = IXC.return_list(data,return_list) if return_list != '' else data
                 return return_list
             else:
-                return 'Sem registros'
+                print('Sem registros - Verifique os parametros inseridos***')
+                return '***Sem registros - Verifique os parametros inseridos***'
         else:
             # pp(response.text)
             return "Error" + response.text
