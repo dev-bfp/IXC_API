@@ -1,3 +1,4 @@
+
 import requests
 import base64
 import json
@@ -29,7 +30,13 @@ class IXC():
                 log.write(str(x)+ '\n')
         # -------------------- Fim --------------------
 
-    
+
+    def swap(value_to_swap, source_table, table_column, value_return):
+        data = IXC.get_info_IXC(source_table,table_column,'=',value_to_swap)['registros'][0]
+        return data[value_return]
+        # -------------------- Fim --------------------
+
+
     def update_date(date):
         '''
         Atualiza os campos de data para um formato aceito pelo IXC
@@ -219,6 +226,7 @@ class IXC():
             return "Error" + response.text
         # -------------------- Fim --------------------
         
+
 
 
 
