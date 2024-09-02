@@ -1,9 +1,10 @@
 from IXC_main import *
 
 
-# filtro = (['id','=','6126'],)
-# ret = ['id','desconto_fidelidade','taxa_instalacao','id_produto_ativ']
-# dados = IXC.get_info_IXC('vd_contratos_produtos','id_plano','=',)
+# filtro = (['id','=','96784'],)
+# ret = ['id','id_cliente']
+# dados = IXC.get_info_IXC('su_ticket', return_list=ret)
+# pp(dados)
 # dd = IXC.get_info_IXC('cliente_contrato','id','=','9000')
 # vd = IXC.get_info_IXC('vd_contratos','id','=',str(dd['registros'][0]['id_vd_contrato']))
 # vd_contrato = IXC.get_info_IXC('vd_contratos_produtos')#,col='id',op='=',value=dd['id_vd_contrato'])
