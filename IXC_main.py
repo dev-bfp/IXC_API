@@ -177,20 +177,25 @@ class IXC():
             param = IXC.parameters_format(param)
             payload['grid_param'] = json.dumps(param)
 
-        print(payload)
+        # print(payload)
         response = requests.post(url, data=json.dumps(payload), headers=headers)
         if response.status_code == 200:
             # pp(response.json())
-            data = response.json()
-            if int(data['total']) > 0:
-                return_list = IXC.return_list(data,return_list) if return_list != '' else data
-                return return_list
-            else:
-                print('Sem registros - Verifique os parametros inseridos***')
-                return '***Sem registros - Verifique os parametros inseridos***'
+            try:
+                data = response.json()
+                if int(data['total']) > 0:
+                    return_list = IXC.return_list(data,return_list) if return_list != '' else data
+                    return return_list
+                else:
+                    print('Sem registros - Verifique os parametros inseridos***')
+                    return False, '***Sem registros - Verifique os parametros inseridos***'
+            except:
+                msg = 'Erro na solicitação, verifique os parametros inseridos'
+                print(msg)
+                return False, msg
         else:
             # pp(response.text)
-            return "Error" + response.text
+            return "Error" + response.json()
         # -------------------- Fim --------------------
 
     
