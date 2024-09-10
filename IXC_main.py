@@ -232,7 +232,7 @@ class IXC():
         # -------------------- Fim --------------------
         
 
-    def close_OS(id_os):
+    def close_OS(id_os, mensagem):
         date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         url = IXC_url + 'su_oss_chamado_fechar'
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
@@ -241,7 +241,7 @@ class IXC():
                     "Authorization": "Basic " + encode,}
         
         payload = { 'id_chamado': id_os,
-                    'mensagem' : 'Documento enviado para assinatura',
+                    'mensagem' : mensagem,
                     'status' : 'F',
                     'id_atendente': '76',
                     'id_tecnico': '76',

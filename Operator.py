@@ -1,4 +1,5 @@
 from IXC_main import *
+import wget
 
 # # # Extrai dados no IXC e cria um xlsx
 # data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
@@ -60,19 +61,21 @@ from IXC_main import *
 # pay = {'tipo': 'S',
 #        'id_plano': '',}
 # IXC.edit_data_IXC('vd_contratos_produtos',ids,pay)
-# https://drive.usercontent.google.com/u/0/uc?id=1bdp8szvlMo-TsOJGS4UfE64ZWCVPvDXm&export=download
 
-# link = 'https://drive.google.com/open?id=1bdp8szvlMo-TsOJGS4UfE64ZWCVPvDXm'
-# arquivo_id = link.split
+# https://drive.usercontent.google.com/u/0/uc?id={}&export=download
 
-# arquivo = requests.get(link)
-# IXC.file_upload_ixc('3817', arquivo.content,'PNG', 'teste')
+link = 'https://drive.google.com/open?id=1MSfGG42MfOHgAOuPTEfIFjPjld6QY-ty'
+arquivo_id = link.split('id=')
+print(arquivo_id[1])
+novo_link = f'https://drive.google.com/uc?export=download&id={arquivo_id[1]}'
+print(novo_link)
 
-hoje = datetime.now().strftime('%Y-%m-%d')
-tabela = 'fn_areceber'
-finance = IXC.get_info_IXC(tabela, hoje,param=[['status','=','A'],['data_vencimento','>', hoje],['data_vencimento','<', '2024-12-31']])
-
-ret = finance['registros'][0].keys()
-
-df = pd.DataFrame(finance['registros'],columns=ret)
-df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{tabela} - {hoje}.xlsx', index= False)
+wget.download(novo_link,'teste.jpeg')
+# arquivo = requests.get(novo_link)
+# if arquivo.status_code == 200:
+#     temp_file = 'foto_temp.jpeg'
+#     with open(temp_file, 'wb') as f:
+#         f.write(arquivo.content)
+# print(arquivo)
+# image = Image.open
+# IXC.file_upload_ixc('3817', temp_file,'jpeg', 'teste')
