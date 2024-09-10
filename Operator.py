@@ -1,5 +1,5 @@
 from IXC_main import *
-import wget
+
 
 # # # Extrai dados no IXC e cria um xlsx
 # data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
@@ -70,7 +70,7 @@ print(arquivo_id[1])
 novo_link = f'https://drive.google.com/uc?export=download&id={arquivo_id[1]}'
 print(novo_link)
 
-wget.download(novo_link,'teste.jpeg')
+
 # arquivo = requests.get(novo_link)
 # if arquivo.status_code == 200:
 #     temp_file = 'foto_temp.jpeg'
