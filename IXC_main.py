@@ -182,15 +182,19 @@ class IXC():
         if response.status_code == 200:
             # pp(response.json())
             data = response.json()
-            if int(data['total']) > 0:
-                return_list = IXC.return_list(data,return_list) if return_list != '' else data
-                return return_list
-            else:
-                print('Sem registros - Verifique os parametros inseridos***')
-                return '***Sem registros - Verifique os parametros inseridos***'
+            try:
+                if int(data['total']) > 0:
+                    formated_data = IXC.return_list(data,return_list) if return_list != '' else data
+                    print(f'Dados da tabela {tab} extraidos com sucesso')
+                    return formated_data
+                else:
+                    print(f'Tabela {tab} Sem registros - Verifique os parametros inseridos***')
+                    return False, '***Sem registros - Verifique os parametros inseridos***'
+            except:
+                return data
         else:
             # pp(response.text)
-            return "Error" + response.text
+            return False, "Error" + response.text
         # -------------------- Fim --------------------
 
     
@@ -246,3 +250,30 @@ class IXC():
         
         response = requests.post(url, headers=headers, data=payload)
         print(response.json())
+
+
+    def executar_OS(id_os):
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        url = IXC_url + 'su_oss_chamado'
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+                    "ixcsoft": "",
+                    "Authorization": "Basic " + encode,}
+        
+        payload = { 'id_chamado': id_os,
+                    'mensagem' : 'Teste Executar',
+                    'setor': '2',
+                    'id_tecnico': '',
+                    'status' : 'EX',
+                    'id_filial': '2',
+                    'id_assunto': '77',
+                    'prioridade': '0',
+                    'origem_endereco': 'c'
+                    # 'id_evento': '9',
+                    # 'tipo_cobranca': '',
+                    }
+        
+        response = requests.post(url, headers=headers, data=payload)
+        print(response.json())
+    
+# IXC.executar_OS('38561')
