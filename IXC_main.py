@@ -177,24 +177,20 @@ class IXC():
             param = IXC.parameters_format(param)
             payload['grid_param'] = json.dumps(param)
 
-        print(payload)
+        # print(payload)
         response = requests.post(url, data=json.dumps(payload), headers=headers)
         if response.status_code == 200:
             # pp(response.json())
             data = response.json()
-            try:
-                if int(data['total']) > 0:
-                    formated_data = IXC.return_list(data,return_list) if return_list != '' else data
-                    print(f'Dados da tabela {tab} extraidos com sucesso')
-                    return formated_data
-                else:
-                    print(f'Tabela {tab} Sem registros - Verifique os parametros inseridos***')
-                    return False, '***Sem registros - Verifique os parametros inseridos***'
-            except:
-                return data
+            if int(data['total']) > 0:
+                return_list = IXC.return_list(data,return_list) if return_list != '' else data
+                return return_list
+            else:
+                print('Sem registros - Verifique os parametros inseridos***')
+                return '***Sem registros - Verifique os parametros inseridos***'
         else:
             # pp(response.text)
-            return False, "Error" + response.text
+            return "Error" + response.text
         # -------------------- Fim --------------------
 
     
@@ -231,7 +227,7 @@ class IXC():
         # -------------------- Fim --------------------
         
 
-    def close_OS(id_os):
+    def close_OS(id_os, mensagem):
         date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         url = IXC_url + 'su_oss_chamado_fechar'
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
@@ -240,7 +236,7 @@ class IXC():
                     "Authorization": "Basic " + encode,}
         
         payload = { 'id_chamado': id_os,
-                    'mensagem' : 'Documento enviado para assinatura',
+                    'mensagem' : mensagem,
                     'status' : 'F',
                     'id_atendente': '76',
                     'id_tecnico': '76',
