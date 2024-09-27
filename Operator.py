@@ -64,11 +64,11 @@ from IXC_main import *
 
 # https://drive.usercontent.google.com/u/0/uc?id={}&export=download
 
-link = 'https://drive.google.com/open?id=1MSfGG42MfOHgAOuPTEfIFjPjld6QY-ty'
-arquivo_id = link.split('id=')
-print(arquivo_id[1])
-novo_link = f'https://drive.google.com/uc?export=download&id={arquivo_id[1]}'
-print(novo_link)
+# link = 'https://drive.google.com/open?id=1MSfGG42MfOHgAOuPTEfIFjPjld6QY-ty'
+# arquivo_id = link.split('id=')
+# print(arquivo_id[1])
+# novo_link = f'https://drive.google.com/uc?export=download&id={arquivo_id[1]}'
+# print(novo_link)
 
 
 # arquivo = requests.get(novo_link)
@@ -79,3 +79,28 @@ print(novo_link)
 # print(arquivo)
 # image = Image.open
 # IXC.file_upload_ixc('3817', temp_file,'jpeg', 'teste')
+
+# clientes = []
+
+# payload = {
+#     # 'filial_id': '2',
+#     'id_filial': '2',
+#     'id_carteira_cobranca': '8'
+# }
+# IXC.edit_data_IXC('cliente',clientes,payload)
+# IXC.edit_data_IXC('cliente_contrato',clientes,payload)
+
+# url = "https://b.receitanet.net/4GJFC"
+# arquivo = requests.get(url)
+# IXC.file_upload_ixc('3817',arquivo.content,'pdf','teste')
+
+
+# url = 'https://webhookn8nv2.mychat.solutions/webhook/380f19ad-2457-4da5-abcc-1ab358ff4437'
+
+# payload = {'external_id': '1123',
+#            'signer_name':'Brian'}
+# response = requests.post(url,payload)
+# print(response.text)
+
+dd = IXC.get_info_IXC('cliente_arquivos')
+pp(dd)

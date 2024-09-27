@@ -24,7 +24,7 @@ class IXC():
 
     def create_log(response,diretory='',modo='w+'):
         now = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-        diretory = r'C:\Users\brian\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
+        diretory = r'C:\Users\Financeiro\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
         with open(diretory,str(modo)) as log:
             for x in response:
                 log.write(str(x)+ '\n')
@@ -89,7 +89,8 @@ class IXC():
         index = 1
         for x in id_list:
             edited = IXC.edit_info_IXC(table,x,payload)
-            print(f'ID: {x} == {edited}')
+            print(f'ID: {x} == {edited['type']} - {edited['message']}')
+            print()
             array_log.append(f'id: {x} - {edited}')
             index += 1
 
