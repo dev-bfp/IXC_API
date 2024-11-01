@@ -178,7 +178,8 @@ class IXC():
             param = IXC.parameters_format(param)
             payload['grid_param'] = json.dumps(param)
 
-        # print(payload)
+        print(payload)
+        
         response = requests.post(url, data=json.dumps(payload), headers=headers)
         if response.status_code == 200:
             # pp(response.json())
@@ -197,6 +198,7 @@ class IXC():
         else:
             # pp(response.text)
             return "Error" + response.json()
+        
         # -------------------- Fim --------------------
 
     
@@ -252,3 +254,8 @@ class IXC():
         
         response = requests.post(url, headers=headers, data=payload)
         print(response.json())
+
+
+if __name__ == "__main__":
+    grid = [["id", "=", "226226"],["status", "=", "A"]]
+    IXC.get_info_IXC("fn_areceber",param=grid)
