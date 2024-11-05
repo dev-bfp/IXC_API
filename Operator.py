@@ -2,15 +2,15 @@ from IXC_main import *
 
 
 # # # Extrai dados no IXC e cria um xlsx
-# data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-# tabela = 'cliente_contrato'
-# # filtro = (['id_plano','=','7'],) 
-# # ret = ['id','id_contrato','tipo','id_plano','id_produto']
-# dados = IXC.get_info_IXC(tabela, )
-# ret = dados['registros'][0].keys()
+data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
+tabela = 'cliente_contrato'
+# filtro = (['id_plano','=','7'],) 
+ret = ['id','id_contrato','tipo','id_plano','id_produto']
+dados = IXC.get_info_IXC(tabela, return_list=ret)
+ret = dados['registros'][0].keys()
 
-# df = pd.DataFrame(dados['registros'],columns=ret)
-# df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{tabela} - {data}.xlsx', index= False)
+df = pd.DataFrame(dados['registros'],columns=ret)
+df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{tabela} - {data}.xlsx', index= False)
 
 
 # dd = IXC.get_info_IXC('cliente_contrato','id','=','9000')
@@ -47,60 +47,24 @@ from IXC_main import *
 # saida = IXC.get_info_IXC('vd_saida','id','=','172038')
 # pp(saida)
 
-# produtos = IXC.get_info_IXC('vd_contratos_produtos')
-# ids = ['466',
-# '1776',
-# '3743',
-# '4560',
-# '5006',
-# '5135',
-# '5271',
-# '5294',
-# '5617',
-# '6354',]
-# pay = {'tipo': 'S',
-#        'id_plano': '',}
-# IXC.edit_data_IXC('vd_contratos_produtos',ids,pay)
 
-# https://drive.usercontent.google.com/u/0/uc?id={}&export=download
-
-# link = 'https://drive.google.com/open?id=1MSfGG42MfOHgAOuPTEfIFjPjld6QY-ty'
-# arquivo_id = link.split('id=')
-# print(arquivo_id[1])
-# novo_link = f'https://drive.google.com/uc?export=download&id={arquivo_id[1]}'
-# print(novo_link)
-
-
-# arquivo = requests.get(novo_link)
-# if arquivo.status_code == 200:
-#     temp_file = 'foto_temp.jpeg'
-#     with open(temp_file, 'wb') as f:
-#         f.write(arquivo.content)
-# print(arquivo)
-# image = Image.open
-# IXC.file_upload_ixc('3817', temp_file,'jpeg', 'teste')
-
+# ------------------------------------------------------
 # clientes = []
 
 # payload = {
-#     # 'filial_id': '2',
-#     'id_filial': '2',
-#     'id_carteira_cobranca': '8'
+#     'filial_id': '2',
 # }
 # IXC.edit_data_IXC('cliente',clientes,payload)
-# IXC.edit_data_IXC('cliente_contrato',clientes,payload)
-
-# url = "https://b.receitanet.net/4GJFC"
-# arquivo = requests.get(url)
-# IXC.file_upload_ixc('3817',arquivo.content,'pdf','teste')
+# # ------------------------------------------------------
 
 
-# url = 'https://webhookn8nv2.mychat.solutions/webhook/380f19ad-2457-4da5-abcc-1ab358ff4437'
+# # ------------------------------------------------------
+# contratos = []
 
-# payload = {'external_id': '1123',
-#            'signer_name':'Brian'}
-# response = requests.post(url,payload)
-# print(response.text)
+# payload = {
+#     'id_filial': '2',
+#     'id_carteira_cobranca': '9'
+# }
 
-dd = IXC.get_info_IXC('cliente_arquivos')
-pp(dd)
+# IXC.edit_data_IXC('cliente_contrato',contratos,payload)
+# ------------------------------------------------------
