@@ -2,15 +2,15 @@ from IXC_main import *
 
 
 # # # Extrai dados no IXC e cria um xlsx
-data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-tabela = 'cliente_contrato'
-# filtro = (['id_plano','=','7'],) 
-ret = ['id','id_contrato','tipo','id_plano','id_produto']
-dados = IXC.get_info_IXC(tabela, return_list=ret)
-ret = dados['registros'][0].keys()
+# data = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
+# tabela = 'cliente_contrato'
+# # filtro = (['id_plano','=','7'],) 
+# ret = ['id','id_contrato','tipo','id_plano','id_produto']
+# dados = IXC.get_info_IXC(tabela, return_list=ret)
+# ret = dados['registros'][0].keys()
 
-df = pd.DataFrame(dados['registros'],columns=ret)
-df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{tabela} - {data}.xlsx', index= False)
+# df = pd.DataFrame(dados['registros'],columns=ret)
+# df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{tabela} - {data}.xlsx', index= False)
 
 
 # dd = IXC.get_info_IXC('cliente_contrato','id','=','9000')
@@ -59,11 +59,18 @@ df.to_excel(f'C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{ta
 
 
 # # ------------------------------------------------------
+# tabela = 'cliente_contrato'
+# filtro = (['assinatura_digital','!=','P'],) 
+# ret = ['id', 'id_cliente']
+# dados = IXC.get_info_IXC(tabela, param=filtro, return_list=ret)
 # contratos = []
+# for valores in dados["registros"]:
+#     id = valores['id']
+#     # print(id)
+#     contratos.append(id)
 
 # payload = {
-#     'id_filial': '2',
-#     'id_carteira_cobranca': '9'
+#     'assinatura_digital': 'P',
 # }
 
 # IXC.edit_data_IXC('cliente_contrato',contratos,payload)
