@@ -77,5 +77,5 @@ from IXC_main import *
 # ------------------------------------------------------
 
 filtro = (['estoque','=','S'],['id','=','626155']) 
-saida = IXC.get_info_IXC('movimento_produtos',param=filtro)
+saida = IXC.get_info_IXC('vd_saidas',param=filtro)
 pp(saida)
