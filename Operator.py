@@ -76,6 +76,6 @@ from IXC_main import *
 # IXC.edit_data_IXC('cliente_contrato',contratos,payload)
 # ------------------------------------------------------
 
-filtro = (['estoque','=','S'],['id','=','626155']) 
-saida = IXC.get_info_IXC('vd_saidas',param=filtro)
-pp(saida)
+# filtro = (['estoque','=','S'],['id','=','626155']) 
+# saida = IXC.get_info_IXC('vd_saidas',param=filtro)
+# pp(saida)
