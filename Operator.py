@@ -1,4 +1,11 @@
 from IXC_main import *
+import gspread
+from google.oauth2.service_account import Credentials
+
+scope = ["https://www.googleapis.com/auth/drive"]
+#credentials_google = ServiceAccountCredentials.from_json_keyfile_name(caminho_local_credentials, scope)
+credentials_google = ServiceAccountCredentials.from_json_keyfile_dict(credencial_google, scope)
+client = gspread.authorize(credentials_google)
 
 
 # # # Extrai dados no IXC e cria um xlsx
@@ -75,7 +82,42 @@ from IXC_main import *
 
 # IXC.edit_data_IXC('cliente_contrato',contratos,payload)
 # ------------------------------------------------------
+# nmSheets = "Custo Operacional"
+# sheet = client.open(nmSheets).worksheet("vd_saida")
 
-# filtro = (['estoque','=','S'],['id','=','626155']) 
-# saida = IXC.get_info_IXC('vd_saidas',param=filtro)
-# pp(saida)
+# filtro = (['status','=','F'],['id','>','0'],['id_condicao_pagamento','=',"14"],)
+# dados = IXC.get_info_IXC('vd_saida',param=filtro, order='DESC')
+
+# formated_data = [list(dados['registros'][0].keys())]
+# for dados in dados["registros"]:
+#     formated_data.append(list(dados.values()))
+
+# dados = sheet.update(formated_data,'A1')
+
+
+
+# nmSheets = "Custo Operacional"
+# sheet = client.open(nmSheets).worksheet("movimento_produtos")
+
+# filtro = (['id_saida', '!=', '0'],['data', '>', '2024-01-01'],)
+# dados = IXC.get_info_IXC('movimento_produtos', param=filtro, order='DESC')
+
+# formated_data = [list(dados['registros'][0].keys())]
+# for dados in dados["registros"]:
+#     formated_data.append(list(dados.values()))
+
+# dados = sheet.update(formated_data,'A1')
+
+
+nmSheets = "Custo Operacional"
+sheet = client.open(nmSheets).worksheet("contrato")
+
+filtro = (['id', '>', '0'],['data_fechamento', '>', '2024-01-01'],)
+dados = IXC.get_info_IXC('cliente_contrato',  order='DESC')
+# print(dados)
+
+formated_data = [list(dados['registros'][0].keys())]
+for dados in dados["registros"]:
+    formated_data.append(list(dados.values()))
+
+dados = sheet.update(formated_data,'A1')

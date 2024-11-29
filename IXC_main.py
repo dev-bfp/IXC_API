@@ -178,7 +178,7 @@ class IXC():
             param = IXC.parameters_format(param)
             payload['grid_param'] = json.dumps(param)
 
-        print(payload)
+        print(f'Tabela: "{tab}"\nParâmetros: {payload}')
         
         response = requests.post(url, data=json.dumps(payload), headers=headers)
         if response.status_code == 200:
