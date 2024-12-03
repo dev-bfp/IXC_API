@@ -25,7 +25,8 @@ class IXC():
 
     def create_log(response,diretory='',modo='w+'):
         now = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-        directory = r'C:\Users\Financeiro\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
+        directory = r'C:\Users\Financeiro\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_'
+        directory = directory + now + '.csv' if diretory == '' else diretory
         
         with open(directory, modo, newline='', encoding='utf-8') as log:
             writer = csv.writer(log)
