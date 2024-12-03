@@ -82,6 +82,7 @@ client = gspread.authorize(credentials_google)
 
 # IXC.edit_data_IXC('cliente_contrato',contratos,payload)
 # ------------------------------------------------------
+
 # nmSheets = "Custo Operacional"
 # sheet = client.open(nmSheets).worksheet("vd_saida")
 
@@ -109,15 +110,52 @@ client = gspread.authorize(credentials_google)
 # dados = sheet.update(formated_data,'A1')
 
 
-nmSheets = "Custo Operacional"
-sheet = client.open(nmSheets).worksheet("contrato")
+# nmSheets = "Custo Operacional"
+# sheet = client.open(nmSheets).worksheet("contrato")
 
-filtro = (['id', '>', '0'],['data_fechamento', '>', '2024-01-01'],)
-dados = IXC.get_info_IXC('cliente_contrato',  order='DESC')
-# print(dados)
+# filtro = (['id', '>', '0'],['data_fechamento', '>', '2024-01-01'],)
+# dados = IXC.get_info_IXC('cliente_contrato',  order='DESC')
+# # print(dados)
 
-formated_data = [list(dados['registros'][0].keys())]
-for dados in dados["registros"]:
-    formated_data.append(list(dados.values()))
+# formated_data = [list(dados['registros'][0].keys())]
+# for dados in dados["registros"]:
+#     formated_data.append(list(dados.values()))
 
-dados = sheet.update(formated_data,'A1')
+# dados = sheet.update(formated_data,'A1')
+
+
+# dados = IXC.get_info_IXC('crm_campanha', 'id','=','2')['registros'][0]['campanha']
+# pp(dados)
+
+
+
+
+# ------------------------------------------------------
+# clientes = []
+
+# payload = {
+#     'filial_id': '2',
+# }
+# IXC.edit_data_IXC('cliente',clientes,payload)
+# # ------------------------------------------------------
+
+
+# # ------------------------------------------------------
+# tabela = 'cliente_contrato'
+# filtro = (['assinatura_digital','!=','P'],) 
+# ret = ['id', 'id_cliente']
+# dados = IXC.get_info_IXC(tabela, param=filtro, return_list=ret)
+# contratos = []
+# for valores in dados["registros"]:
+#     id = valores['id']
+#     # print(id)
+#     contratos.append(id)
+
+
+# contratos = []
+# payload = {
+#     'id_filial': '2',
+#     'id_carteira_cobranca': '9'
+# }
+# IXC.edit_data_IXC('cliente_contrato',contratos,payload)
+# # ------------------------------------------------------

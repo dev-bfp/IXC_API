@@ -2,6 +2,7 @@
 import requests
 import base64
 import json
+import csv
 from datetime import datetime
 from pprint import pp as pp
 from Tokens import *
@@ -24,10 +25,18 @@ class IXC():
 
     def create_log(response,diretory='',modo='w+'):
         now = datetime.now().strftime("%d-%m-%Y %Hh%Mm%Ss")
-        diretory = r'C:\Users\Financeiro\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
-        with open(diretory,str(modo)) as log:
+        directory = r'C:\Users\Financeiro\OneDrive\dev-bfp\GitHub\IXC_API\logs\log_IXC_' +now+ '.csv' if diretory == '' else diretory
+        
+        with open(directory, modo, newline='', encoding='utf-8') as log:
+            writer = csv.writer(log)
+            if modo == 'w+':
+                writer.writerow(['id_origem', 'type', 'message', 'atualiza_campos'])
+
+            # Escrever os dados no formato de colunas
             for x in response:
-                log.write(str(x)+ '\n')
+                writer.writerow([x.get('id_origem', ''), x.get('type', ''), x.get('message', ''), x.get('atualiza_campos', '')])
+
+        print(f"Log criado em: {directory}")
         # -------------------- Fim --------------------
 
 
@@ -91,7 +100,8 @@ class IXC():
             edited = IXC.edit_info_IXC(table,x,payload)
             print(f'ID: {x} == {edited['type']} - {edited['message']}')
             print()
-            array_log.append(f'id: {x} - {edited}')
+            edited['id_origem'] = x
+            array_log.append(edited)
             index += 1
 
         IXC.create_log(array_log)
