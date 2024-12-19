@@ -46,12 +46,39 @@ class IXC():
         return data[value_return]
         # -------------------- Fim --------------------
 
+    def replace_manual(data, replace_list):
+        '''
+        Realiza o replace com base nos dados inseridos em "to_replace"
+        A estrutura do to_replace deve ser {coluna: [[antigo,novo],]}
+        '''
+        new_data = {}
+        new_data['page'] = data['page']
+        new_data['total'] = data['total']
+        new_data['registros'] = []
+        # print(new_data)
+        for dados in data['registros']: # Analisa os registros dentro de dados
+            for campo, valor in dados.items(): # For nos registros dentro de dados
+                for key,value  in replace_list.items(): # For na lista de substituições
+                    if campo == key: # Verifica se consta algum item pra substituir
+                        for y in value: # Verifica todos os itens 
+                            if valor == y[0]:
+                                dados[campo] = y[1]
+            
+            new_data['registros'].append(dados)
+        
+
+        # print(new_data)
+        return new_data             
+
 
     def update_date(date):
         '''
         Atualiza os campos de data para um formato aceito pelo IXC
         '''
         if date == '0000-00-00':
+            return ''
+        
+        elif date == '0000-00-00 00:00:00':
             return ''
         
         elif len(date) == 10:
@@ -156,10 +183,9 @@ class IXC():
 
 
     def get_info_IXC(tab, col='id', op='>', value=0, return_list='', param='', pag="1", lin="10000000",
-                     ord_camp='id', order='asc'):
+                     ord_camp='id', order='asc', manual_replace=''):
         '''
         tab - Tabela do IXC
-        param = Filtros adicionais array(['col','op','value'])
         col - Coluna IXC que vai ser consultada
         value - Campo da consulta
         op - Operador lógico para consulta = != > < >= <=
@@ -167,6 +193,14 @@ class IXC():
         lin - Quantidade de registros por página
         ord_camp - Campo que vai ser usado para colocar em ordem
         ord - Ordenação ASC ou DESC
+        
+        param = Filtros adicionais deve ser no formato [['col','op','value'],]
+        Ex.: [['id','=','2'],
+              ['bairro','=','Ayrosa']]
+
+        manual_replace = Substituição de campos deve ser no formato {coluna: [[antigo,novo],]}
+        Ex.: {'bairro': [['Ayrosa', 'SP'],]
+              'cidade': [['3683','Osasco'],]}
         '''
         url = IXC_url + tab
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
@@ -192,12 +226,19 @@ class IXC():
         print(f'\nTabela: "{tab}"\n\nParâmetros: {payload}\n')
         
         response = requests.post(url, data=json.dumps(payload), headers=headers)
+        print(response)
         if response.status_code == 200:
-            # pp(response.json())
+            pp(response.json())
             try:
                 data = response.json()
                 if int(data['total']) > 0:
-                    return_list = IXC.return_list(data,return_list) if return_list != '' else data
+                    data_formated = []
+                    for registro in data['registros']:
+                        data_formated.append(IXC.type_verificator(registro))
+                    # pp(data_formated)
+                    data['registros'] = data_formated
+                    data_new = IXC.replace_manual(data, manual_replace) if manual_replace != '' else data
+                    return_list = IXC.return_list(data_new,return_list) if return_list != '' else data_new
                     return return_list
                 else:
                     print('Sem registros - Verifique os parametros inseridos***')
@@ -268,5 +309,10 @@ class IXC():
 
 
 if __name__ == "__main__":
-    grid = [["id", "=", "226226"],["status", "=", "A"]]
-    IXC.get_info_IXC("fn_areceber",param=grid)
+    # grid = [["bairro", "=", "Ayrosa"],['id','>','8900'],]
+    # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
+    # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
+    # pp(dados)
+    dados = IXC.get_info_IXC('cliente_contrato')
+    pp(dados)
+

@@ -159,3 +159,29 @@ client = gspread.authorize(credentials_google)
 # }
 # IXC.edit_data_IXC('cliente_contrato',contratos,payload)
 # # ------------------------------------------------------
+
+# dados = IXC.get_info_IXC('cliente')
+# print(dados)
+
+
+url = IXC_url + 'produtos'
+encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+# print(encode)
+headers = {
+'ixcsoft': 'listar',
+'Authorization': "Basic " + encode,
+'Content-Type': 'application/json'
+}
+
+payload = {
+    'qtype': 'id',
+    'query': '11',
+    'oper': '=',
+    # 'page': '1',
+    # 'rp': lin,
+    # 'sortname': ord_camp,
+    # 'sortorder': order,
+}
+
+response = requests.post(url, data=json.dumps(payload), headers=headers)
+pp(response.json())
