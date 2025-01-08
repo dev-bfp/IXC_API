@@ -226,9 +226,9 @@ class IXC():
         print(f'\nTabela: "{tab}"\n\nParâmetros: {payload}\n')
         
         response = requests.post(url, data=json.dumps(payload), headers=headers)
-        print(response)
+        # print(response)
         if response.status_code == 200:
-            pp(response.json())
+            # pp(response.json())
             try:
                 data = response.json()
                 if int(data['total']) > 0:
@@ -313,6 +313,6 @@ if __name__ == "__main__":
     # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
     # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
     # pp(dados)
-    dados = IXC.get_info_IXC('cliente_contrato')
+    dados = IXC.get_info_IXC('su_oss_chamado','id_assunto','=','26')
     pp(dados)
 
