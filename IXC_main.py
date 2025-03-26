@@ -10,6 +10,34 @@ import pandas as pd
 
 class IXC():
 
+    def send_to_IXC(tab, payload):
+        '''
+        Envia dados ou comandos para o IXC
+
+        tab - Tabela do IXC
+        payload = payload com alterações a serem realizadas
+        '''
+        print(f'Enviando para o IXC: {payload}')
+         
+        url = f"https://crm.redfibra.com.br/webservice/v1/{tab}"
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+            'ixcsoft': '',
+            'Authorization': "Basic " + encode,
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
+        if response.status_code == 200:
+            #pp(response.json())
+            retorno = response.json()
+            return retorno
+        else:
+            pp(response.text)
+            return "Error" + response.text
+        # -------------------- Fim --------------------
+
+
     def parameters_format(parameters):
         '''
         Formata os parâmetros no padrão utilizado
@@ -45,6 +73,7 @@ class IXC():
         data = IXC.get_info_IXC(source_table,table_column,'=',value_to_swap)['registros'][0]
         return data[value_return]
         # -------------------- Fim --------------------
+
 
     def replace_manual(data, replace_list):
         '''
@@ -313,6 +342,6 @@ if __name__ == "__main__":
     # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
     # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
     # pp(dados)
-    dados = IXC.get_info_IXC('su_oss_chamado','id_assunto','=','26')
-    pp(dados)
+    dados = IXC.get_info_IXC('cliente_contrato','id','=','9276')
+    print(dados)
 
