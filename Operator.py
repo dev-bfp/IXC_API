@@ -399,42 +399,29 @@ client = gspread.authorize(credentials_google)
 # IXC.edit_data_IXC('cliente',clientes,payload)
 
 
+# payload = {'id_chamado' : '50383',
+#       'mensagem' : 'teste',
+#       'id_tecnico' : '38',
+#       'status': 'AG',
+#       'id_evento': '5',
+#       'data_agendamento' : '2025-3-29 09:00:00',
+#       'data_agendamento_final' :'2025-3-29 10:00:00',}
+
+# data = IXC.send_to_IXC('su_oss_chamado_reagendar', payload)
+# print(data)
+
+# dados_os = {
+#     "id_chamado": "50383",
+#     "id_setor": "2",
+#     "id_tecnico": "38",
+#     "id_assunto": "1",
+#     "mensagem": "testeee",
+#     "status": "AG"
+# }
+# data = IXC.send_to_IXC('su_oss_chamado_alterar_setor',dados_os)
+# print(data)
 
 
-lista = {('303353', '150,00', '25/03/2025', '43994'),
-('299902', '100,00', '25/03/2025', '40075'),
-('300498', '100,00', '25/03/2025', '40782'),
-('300780', '75,00', '25/03/2025', '41105'),
-('300430', '75,00', '25/03/2025', '40662'),
-('300510', '100,00', '25/03/2025', '40806'),
-('297359', '120,00', '24/03/2025', '37068'),
-('301284', '120,00', '24/03/2025', '41719'),
-('297873', '100,00', '24/03/2025', '37649'),
-('302102', '75,00', '24/03/2025', '42619'),
-('296274', '100,00', '24/03/2025', '35689'),
-('300989', '100,00', '23/03/2025', '41333'),
-('313303', '75,00', '07/03/2025', '38928'),}
 
-log = []
-for x in lista: 
-    payload = {
-        "filial_id": "2",  # filial do recebimento
-        "id_receber": x[0],  # id do título
-        "conta_": "12",  # conta que está fazendo o recebimento
-        "id_conta": "1",  # planejamento analítico da conta que está fazendo o recebimento
-        "tipo_recebimento": "D",  # tipo recebimento em dinheiro
-        "data": x[2],  # data do recebimento
-        "valor_parcela": x[1],  # valor da parcela
-        "credito": x[1],  # crédito e débito devem se anular na baixa
-        "debito": x[1],
-        "valor_total_recebido": x[1],  # valor total
-        "historico": "BAIXA NETFIBRALINE - ID SGP: " + x[3] + " - IXC: " + x[0],  # descrição registrada
-        "previsao": "N",  # Previsão = S significa isentar de um período, previsão = N significa que foi cobrado
-        "tipo_lanc": "R",  # tipo de lançamento recebimento
-    }
 
-    dados = IXC.send_to_IXC('fn_areceber_recebimentos_baixas_novo',payload)
-    pp(dados)
-    log.append(dados)
 
-IXC.create_log(log)

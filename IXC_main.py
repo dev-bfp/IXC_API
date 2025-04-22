@@ -18,8 +18,8 @@ class IXC():
         payload = payload com alterações a serem realizadas
         '''
         print(f'Enviando para o IXC: {payload}')
-         
-        url = f"https://crm.redfibra.com.br/webservice/v1/{tab}"
+        
+        url = IXC_url + tab
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
         headers = {
             'ixcsoft': '',
@@ -233,6 +233,7 @@ class IXC():
         '''
         url = IXC_url + tab
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        # print(encode)
         headers = {
             'ixcsoft': 'listar',
             'Authorization': "Basic " + encode,
@@ -255,7 +256,7 @@ class IXC():
         print(f'\nTabela: "{tab}"\n\nParâmetros: {payload}\n')
         
         response = requests.post(url, data=json.dumps(payload), headers=headers)
-        # print(response)
+        # print(response.text)
         if response.status_code == 200:
             # pp(response.json())
             try:
@@ -296,8 +297,7 @@ class IXC():
         dados.update(payload1)
         
         #pp(dados)
-        
-        url = f"https://crm.redfibra.com.br/webservice/v1/{tab}/{id}"
+        url = f'{IXC_url}{tab}/{id}'
         encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
         headers = {
             'ixcsoft': '',
@@ -342,6 +342,6 @@ if __name__ == "__main__":
     # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
     # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
     # pp(dados)
-    dados = IXC.get_info_IXC('cliente_contrato','id','=','9276')
+    dados = IXC.get_info_IXC('cliente','id','=','666')
     print(dados)
 
