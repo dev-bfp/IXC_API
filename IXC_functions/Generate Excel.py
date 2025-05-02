@@ -1,4 +1,6 @@
 from Monalisa import *
+from datetime import *
+import pandas as pd
 
 def Tab_FN_ARECEBER_Brian(page, registros, celula):
     colunas = [
@@ -72,5 +74,4 @@ df = pd.DataFrame(dados,columns=list(cabecalho.keys()))
 df = df.astype(cabecalho)
 agora = datetime.now().strftime("%d-%m-%Y %H_%M_%S")
 df.to_excel(f"C:/Users/brian/OneDrive/dev-bfp/GitHub/IXC_API/generated files/{} " + agora + ".xlsx", index= False)
-
 
