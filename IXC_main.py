@@ -65,6 +65,7 @@ class IXC():
             for x in response:
                 writer.writerow([x.get('id_origem', ''), x.get('type', ''), x.get('message', ''), x.get('atualiza_campos', '')])
 
+
         print(f"Log criado em: {directory}")
         # -------------------- Fim --------------------
 
@@ -335,6 +336,39 @@ class IXC():
         
         response = requests.post(url, headers=headers, data=payload)
         print(response.json())
+        return response.json()
+
+
+    def desbloqueio_confianca(id_contrato):
+
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        url = IXC_url + 'desbloqueio_confianca'
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+                    "ixcsoft": "",
+                    "Authorization": "Basic " + encode,}
+
+        payload = { 'id': id_contrato}
+        
+        response = requests.post(url, headers=headers, data=payload)
+        print(response.json())
+        return response.json()
+
+
+    def liberar_temp(id_contrato):
+
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        url = IXC_url + 'cliente_contrato_btn_lib_temp_24722'
+        encode = base64.b64encode(IXC_token.encode('utf-8')).decode('utf-8')
+        headers = {
+                    "ixcsoft": "",
+                    "Authorization": "Basic " + encode,}
+
+        payload = { 'id': id_contrato}
+        
+        response = requests.post(url, headers=headers, data=payload)
+        print(response.json())
+        return response.json()
 
 
 if __name__ == "__main__":
@@ -342,6 +376,7 @@ if __name__ == "__main__":
     # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
     # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
     # pp(dados)
-    dados = IXC.get_info_IXC('cliente','id','=','666')
+    # dados = IXC.get_info_IXC('cliente','id','=','666')
+    dados = IXC.connection_release('10392')
     print(dados)
 
