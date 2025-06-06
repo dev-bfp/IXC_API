@@ -232,107 +232,49 @@ client = gspread.authorize(credentials_google)
 # print(data)
 
 
-contratos = ['11119',
-'11120',
-'11131',
-'11135',
-'11136',
-'11137',
-'11138',
-'11143',
-'11144',
-'11145',
-'11146',
-'11154',
-'11156',
-'11160',
-'11162',
-'11163',
-'11164',
-'11165',
-'11167',
-'11172',
-'11174',
-'11181',
-'11182',
-'11183',
-'11187',
-'11191',
-'11192',
-'11198',
-'11208',
-'11214',
-'11223',
-'11224',
-'11233',
-'11238',
-'11239',
-'11240',
-'11242',
-'11244',
-'11246',
-'11247',
-'11248',
-'11249',
-'11250',
-'11254',
-'11255',
-'11262',
-'11267',
-'11271',
-'11272',
-'11274',
-'11277',
-'11278',
-'11279',
-'11280',
-'11283',
-'11285',
-'11287',
-'11288',
-'11291',
-'11293',
-'11297',
-'11298',
-'11299',
-'11301',
-'11304',
-'11307',
-'11313',
-'11315',
-'11316',
-'11323',
-'11326',
-'11330',
-'11331',
-'11333',
-'11334',
-'11339',
-'11340',
-'11344',
-'11345',
-'11354',
-'11357',
-'11360',
-'11364',
-'11376',
-'11389',
-'11408',
-'11413',]
+# contratos = []
 
 
-log = []
-for x in contratos:
-    dados = IXC.desbloqueio_confianca(x)
-    if dados:
-        dados['id_origem'] = x
-        log.append(dados)
-    else: 
-        dados = IXC.liberar_temp(x)
-        dados['id_origem'] = x
-        log.append(dados)
-        print(dados)
+# log = []
+# for x in contratos:
+#     dados = IXC.desbloqueio_confianca(x)
+#     if dados:
+#         dados['id_origem'] = x
+#         log.append(dados)
+#     else: 
+#         dados = IXC.liberar_temp(x)
+#         dados['id_origem'] = x
+#         log.append(dados)
+#         print(dados)
 
-print(log)
-IXC.create_log(log)
+# print(log)
+# IXC.create_log(log)
 
+# contratos = []
+
+
+# payload = {
+#     'liberacao_bloqueio_manual': 'P',
+# }
+
+# dados = IXC.edit_data_IXC('cliente_contrato', contratos, payload)
+# ids = []
+# data = IXC.get_info_IXC('cliente_contrato', 'liberacao_bloqueio_manual', '=', 'N')
+# for x in data['registros']:
+#     ids.append(x['id'])
+
+# print(ids)
+
+
+# nameSheets = "Análise Pontual"
+# worksheet = 'filial_contrato'
+# sheet = client.open(nameSheets).worksheet(worksheet)
+
+# filtro = (['status','=','F'],['id','>','0'],['id_condicao_pagamento','=',"14"],)
+# dados = IXC.get_info_IXC('vd_saida',param=filtro, order='DESC')
+
+# formated_data = [list(dados['registros'][0].keys())]
+# for dados in dados["registros"]:
+#     formated_data.append(list(dados.values()))
+
+# dados = sheet.update(formated_data,'A1')

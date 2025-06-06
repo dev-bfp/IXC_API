@@ -372,11 +372,11 @@ class IXC():
 
 
 if __name__ == "__main__":
+    print('IXC_Main')
     # grid = [["bairro", "=", "Ayrosa"],['id','>','8900'],]
     # replace_list = {'bairro': [['Ayrosa','Ayr'],['Centro','Ctr']], 'cidade': [['3653','Osasco'],['3523','Itapevi'],['3828','São Paulo']]}
     # dados = IXC.get_info_IXC("cliente",param=grid, manual_replace=replace_list)
     # pp(dados)
     # dados = IXC.get_info_IXC('cliente','id','=','666')
-    dados = IXC.connection_release('10392')
-    print(dados)
-
+    # dados = IXC.connection_release('10392')
+    # print(dados)
